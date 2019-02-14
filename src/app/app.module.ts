@@ -11,6 +11,7 @@ import {SharedService} from './services/shared.service';
 import {SidebarService} from './services/sidebar.service';
 import { RegisterComponent } from './login/register.component';
 import { PagesModule } from './pages/pages.module';
+import { SettingsService } from './services/settings.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { PagesModule } from './pages/pages.module';
     PagesModule,
     FormsModule
   ],
-  providers: [SidebarService, SharedService],
+  providers: [SidebarService, SharedService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
