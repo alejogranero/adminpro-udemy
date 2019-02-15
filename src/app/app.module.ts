@@ -7,11 +7,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 
 // Servicios
-import {SharedService} from './services/shared.service';
-import {SidebarService} from './services/sidebar.service';
+import {ServiceModule} from './services/service.module';
+
 import { RegisterComponent } from './login/register.component';
 import { PagesModule } from './pages/pages.module';
-import { SettingsService } from './services/settings.service';
 
 @NgModule({
   declarations: [
@@ -23,9 +22,10 @@ import { SettingsService } from './services/settings.service';
     BrowserModule,
     APP_ROUTES,
     PagesModule,
-    FormsModule
+    FormsModule,
+    ServiceModule
   ],
-  providers: [SidebarService, SharedService, SettingsService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
