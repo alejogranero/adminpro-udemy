@@ -18,7 +18,7 @@ export class BreadcrumbsComponent implements OnInit {
       name: '',
       content: this.titulo
 
-    };
+    }; // prueba
 
     this.meta.updateTag(metaTag);
 
