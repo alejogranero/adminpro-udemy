@@ -1,4 +1,5 @@
 export class Usuario {
+  [x: string]: string;
 
     constructor(
         public nombre: string,
@@ -6,7 +7,6 @@ export class Usuario {
         public password: string,
         public img?: string,
         public role?: string,
-        public google?: boolean,
         public id?: string
     ) {}
 

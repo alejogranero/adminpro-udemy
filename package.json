@@ -25,6 +25,7 @@
     "rxjs": "~6.3.3",
     "sweetalert": "^2.1.2",
     "tslib": "^1.9.0",
+    "typescript-base64-arraybuffer": "^0.1.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

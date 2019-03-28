@@ -18,12 +18,11 @@ export class BreadcrumbsComponent implements OnInit {
       name: '',
       content: this.titulo
 
-    }; // prueba
+    };
 
     this.meta.updateTag(metaTag);
 
     this.getDataRoute().subscribe( data => {
-        console.log(data);
         this.titulo = data.titulo;
         this.title.setTitle(this.titulo);
     }

@@ -7,6 +7,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { LoginGuardGuard } from '../services/service.index';
+import { ProfileComponent } from './profile/profile.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 const pagesRoutes: Routes = [
     {
@@ -18,8 +20,11 @@ const pagesRoutes: Routes = [
           {path: 'progress', component: ProgressComponent, data: {titulo: 'Progress'}},
           {path: 'graficas1', component: Graficas1Component, data: {titulo: 'Graficas'}},
           {path: 'promesas', component: PromesasComponent, data: {titulo: 'Promesas'}},
+          {path: 'perfil', component: ProfileComponent, data: {titulo: 'Perfil del usuario'}},
           {path: 'rxjs', component: RxjsComponent, data: {titulo: 'RXJS'}},
           {path: 'account-settings', component: AccountSettingsComponent, data: {titulo: 'Ajustes del tema'}},
+          // Mantenimiento
+          {path: 'usuarios', component: UsuariosComponent, data: {titulo: 'Mantenimiento de usuarios'}},
           { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
         ]
       },
