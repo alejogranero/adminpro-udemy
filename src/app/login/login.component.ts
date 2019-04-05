@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
+    init_plugins();
+
     this.email = localStorage.getItem('email') || '';
 
     if (this.email.length > 1) {
