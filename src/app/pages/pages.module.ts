@@ -24,6 +24,8 @@ import { ModalUploadComponent } from '../components/modal-upload/modal-upload.co
 import { HospitalesComponent } from './hospitales/hospitales.component';
 import { MedicosComponent } from './medicos/medicos.component';
 import { MedicoComponent } from './medicos/medico.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 
 @NgModule({
@@ -43,7 +45,8 @@ import { MedicoComponent } from './medicos/medico.component';
         ModalUploadComponent,
         HospitalesComponent,
         MedicosComponent,
-        MedicoComponent
+        MedicoComponent,
+        BusquedaComponent
     ],
     exports : [
         DashboardComponent,
@@ -61,7 +64,8 @@ import { MedicoComponent } from './medicos/medico.component';
         FormsModule,
         ChartsModule,
         PipesModule,
-        CommonModule
+        CommonModule,
+        AgGridModule.withComponents([])
     ]
 })
 

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario.model';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { URL_SERVICIOS } from 'src/app/config/config';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SubirArchivoService } from '../subirArchivo/subir-archivo.service';
+import { Observable } from 'rxjs/internal/Observable';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class UsuarioService {
 
 token: string;
 usuario: Usuario;
+menu: any = [];
 
   constructor( public http: HttpClient,
                public router: Router,
@@ -33,9 +36,17 @@ usuario: Usuario;
       }
 
     const url = `${URL_SERVICIOS}/login`;
-    return this.http.post(url, usuario).pipe(map((respuesta: any) => {
-      this.guardarStorage(respuesta.id, respuesta.token, respuesta.usuarioDB); // puede ser respuesta.usuarioDB
-      return true;
+    return this.http.post(url, usuario)
+    .pipe(map((respuesta: any) => {
+      console.log(respuesta);
+      this.guardarStorage(respuesta.id, respuesta.token, respuesta.usuarioDB, respuesta.menu); // puede ser respuesta.usuarioDB
+      return true; }),
+    catchError( (err: HttpErrorResponse) => {
+
+        console.log(err.error.mensaje);
+
+        sweetAlert('Error al ingresar datos', err.error.mensaje, 'error');
+        return Observable.throw(err);
     }));
 
   }
@@ -43,29 +54,36 @@ usuario: Usuario;
   logout() {
     this.usuario = null;
     this.token = '';
+    this.menu = [];
 
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
+    localStorage.removeItem('menu');
     this.router.navigate(['/login']);
   }
 
-  guardarStorage(id: string, token: string, usuario: Usuario) {
+  guardarStorage(id: string, token: string, usuario: Usuario, menu: any) {
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(usuario));
+    localStorage.setItem('menu', JSON.stringify(menu));
     // como el usuario es un objeto, en el localstorage hay que guardarlo como string;
 
     this.usuario = usuario;
     this.token = token;
+    this.menu = menu;
+
   }
 
   cargarStorage() {
     if (localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse(localStorage.getItem('usuario'));
+      this.menu = JSON.parse(localStorage.getItem('menu'));
     } else {
       this.token = '';
       this.usuario = null;
+      this.menu = [];
     }
   }
 
@@ -77,8 +95,17 @@ usuario: Usuario;
     .pipe(map((resp: any) => {
       sweetAlert('Usuario creado', usuario.nombre, 'success');
       return resp.usuario;
-    }));
+    }),
+    catchError( (err: HttpErrorResponse) => {
+
+      console.log(err.error.mensaje);
+      console.log(err);
+
+      sweetAlert(err.error.mensaje, err.error.errors.message , 'error');
+      return Observable.throw(err);
+  }));
   }
+
 
   actualizarUsuario(usuario: Usuario) {
 
@@ -89,12 +116,19 @@ usuario: Usuario;
        if (usuario._id === this.usuario._id) {
         // Si el usuario pasado por parámetro es el mismo que está logueado...
         const usuarioDB: Usuario = resp.usuario;
-        this.guardarStorage(usuarioDB._id, this.token, usuarioDB );
+        this.guardarStorage(usuarioDB._id, this.token, usuarioDB, this.menu );
       }
 
        sweetAlert('Usuario actualizado', usuario.nombre, 'success');
        return true;
-    }));
+    }),
+    catchError( (err: HttpErrorResponse) => {
+
+      console.log(err.error.mensaje);
+
+      sweetAlert(err.error.mensaje, err.error.errors.message , 'error');
+      return Observable.throw(err);
+  }));
   }
 
   cambiarImagen(archivo: File, id: string) {
@@ -102,7 +136,7 @@ usuario: Usuario;
         .then((resp: any) => {
           this.usuario.img = resp.usuario.img;
           sweetAlert('Imagen actualizada', this.usuario.nombre, 'success');
-          this.guardarStorage(id, this.token, this.usuario);
+          this.guardarStorage(id, this.token, this.usuario, this.menu);
         })
         .catch(resp => {
           console.log(resp);

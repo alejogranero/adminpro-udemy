@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit {
 
   constructor( public usuarioSRV: UsuarioService) {
 
-    this.usuario = usuarioSRV.usuario;
+     this.usuario = usuarioSRV.usuario;
   }
 
   ngOnInit() {
@@ -26,8 +26,8 @@ export class ProfileComponent implements OnInit {
     console.log(usuario);
     this.usuario.nombre = usuario.nombre;
     this.usuario.email = usuario.email;
-
-    this.usuarioSRV.actualizarUsuario(this.usuario). subscribe();
+    console.log(this.usuario);
+    this.usuarioSRV.actualizarUsuario(this.usuario).subscribe();
   }
 
   seleccionImagen(archivo: File) {
